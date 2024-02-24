@@ -6,7 +6,8 @@ import gi
 import threading
 
 gi.require_version('Gtk', '4.0')
-from gi.repository import Gtk, GLib, Gdk
+gi.require_version('Adw', '1')
+from gi.repository import Gtk, GLib, Gdk, Adw
 from time import sleep
 
 # VERSION = 1.0.1
@@ -349,7 +350,7 @@ class MainWindow(Gtk.ApplicationWindow):
         super().__init__(*args, **kwargs)
         # Things will go here
 
-class MyApp(Gtk.Application):
+class MyApp(Adw.Application):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.connect('activate', self.on_activate)
