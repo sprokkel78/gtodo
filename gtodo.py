@@ -366,7 +366,7 @@ class MyApp(Gtk.Application):
         box0.append(seperator_5)
 
         scrolled_window_1 = Gtk.ScrolledWindow()
-        scrolled_window_1.set_size_request(100, 700)
+        scrolled_window_1.set_size_request(100, 400)
 
         box0.append(scrolled_window_1)
 
@@ -393,7 +393,6 @@ class MyApp(Gtk.Application):
         label_topic_empty = Gtk.Label()
         label_topic_empty.set_size_request(100, 15)
         box_00a.append(label_topic_empty)
-
 
         box_00a.append(listbox_topic)
 
@@ -439,7 +438,6 @@ class MyApp(Gtk.Application):
         button_todo.set_size_request(110, -1)
         button_todo.connect("clicked", button_todo_clicked)
         box_11b.append(button_todo)
-
 
         box_title = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         box_11a.append(box_title)
