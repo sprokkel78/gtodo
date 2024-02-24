@@ -155,15 +155,16 @@ def change_priority(obj, label_todo, entry_prio, row):
     print("changing priority")
     todo = label_todo.get_text()
     prio = entry_prio.get_text()
-
+    print(todo)
     listbox_todo.remove(row)
-    command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + todo + "\" > " + homedir + "/.gtodo/" + topic + "txt.new"
+    command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + todo + "\" > " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
     sleep(0.5)
-    command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + "txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
+    command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
+    sleep(0.5)
 
     line = prio + ";" + todo
 
@@ -303,7 +304,7 @@ def load_topics():
             if topic_real_name[0] == topic:
                 print("ok")
                 print(topic_real_name[0] + str(row))
-                listbox_topic.select_row(listbox_topic.get_row_at_index(x + 1))
+                listbox_topic.select_row(row)
         else:
             if remove == 1:
                 listbox_topic.select_row(listbox_topic.get_row_at_index(0))
