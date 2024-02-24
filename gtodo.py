@@ -21,6 +21,7 @@ thread_started = False
 global homedir
 global topic
 topic = "Main"
+remove = 0
 
 entry_todo = Gtk.Entry()
 entry_priority = Gtk.Entry()
@@ -243,11 +244,12 @@ def new_topic(obj, entry):
             result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             out = result.communicate()
 
+            row = Gtk.ListBoxRow()
             label_topic = Gtk.Label(label=topic)
-            hbox_topic.append(label_topic)
+            row.set_child(label_topic)
+            listbox_topic.append(row)
 
         entry.set_text("")
-
         listbox_topic.remove_all()
         load_topics()
         topic_changed(0, 0, 0, 0, label_topic)
@@ -256,6 +258,10 @@ def load_topics():
     global homedir
     global listbox_topic
     global hbox_topic
+    global topic
+    global remove
+
+    row = Gtk.ListBoxRow()
 
     homedir = os.path.expanduser("~")
     print("loading topics")
@@ -269,8 +275,6 @@ def load_topics():
     sleep(0.5)
 
     x = 0
-
-    row = Gtk.ListBoxRow()
 
     label_topic_3 = Gtk.Label()
     label_topic_3.set_text("Main")
@@ -286,7 +290,7 @@ def load_topics():
         topic_name = name.split("/")
         topic_real_name = topic_name[4].split(".")
         print(topic_real_name[0])
-        x = x + 1
+
         if topic_real_name[0] != "Main":
             row = Gtk.ListBoxRow()
             label_topic = Gtk.Label()
@@ -298,13 +302,20 @@ def load_topics():
             listbox_topic.append(row)
             if topic_real_name[0] == topic:
                 print("ok")
-                listbox_topic.select_row(row)
+                print(topic_real_name[0] + str(row))
+                listbox_topic.select_row(listbox_topic.get_row_at_index(x + 1))
+        else:
+            if remove == 1:
+                listbox_topic.select_row(listbox_topic.get_row_at_index(0))
+                remove = 0
 
+        x = x + 1
 
 def button_topic_delete_clicked(obj):
     global topic
     global topic_title
-
+    global remove
+    remove = 1
     if topic != "Main":
         if os.path.exists(os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"):
             command = "rm " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
@@ -313,9 +324,11 @@ def button_topic_delete_clicked(obj):
 
         topic = "Main"
         label = Gtk.Label(label=topic)
+        row = Gtk.ListBoxRow()
+        row.set_child(label)
+        listbox_topic.append(row)
         topic_changed(0, 0, 0, 0, label)
         load_topics()
-        listbox_topic.select_row(listbox_topic.get_row_at_index(0))
 
 
 def topic_changed(obj, obj1, obj2, obj3, label):
@@ -325,6 +338,9 @@ def topic_changed(obj, obj1, obj2, obj3, label):
     topic = label.get_text()
     label_title.set_text(" -> " + topic)
     reload_lists()
+
+
+
 
 # CREATE THE USER INTERFACE
 class MainWindow(Gtk.ApplicationWindow):
