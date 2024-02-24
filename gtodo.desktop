@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=gTodo
+Exec=/usr/bin/gtodo
+Comment=TODO GUI Client
+Terminal=false
+Icon=/usr/share/gtodo-sprokkel78/gtodo.svg
+Type=Application
