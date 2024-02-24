@@ -443,6 +443,8 @@ class MyApp(Gtk.Application):
         seperator_3 = Gtk.Separator()
         box0.append(seperator_3)
 
+        listbox_topic.select_row(listbox_topic.get_row_at_index(0))
+
         win.present()
 
 
