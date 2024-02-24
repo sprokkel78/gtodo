@@ -343,8 +343,13 @@ class MyApp(Gtk.Application):
         seperator_5 = Gtk.Separator()
         box0.append(seperator_5)
 
+        scrolled_window_1 = Gtk.ScrolledWindow()
+        scrolled_window_1.set_size_request(100, 700)
+
+        box0.append(scrolled_window_1)
+
         global box_00a
-        box0.append(box_00a)
+        scrolled_window_1.set_child(box_00a)
 
         label_spacer_3 = Gtk.Label()
         label_spacer_3.set_size_request(-1, 17)
@@ -359,13 +364,9 @@ class MyApp(Gtk.Application):
         entry_topic_1 = Gtk.Entry()
         entry_topic_1.set_max_length(12)
         entry_topic_1.set_editable(True)
-        entry_topic_1.set_placeholder_text("New")
+        entry_topic_1.set_placeholder_text("Add Topic")
         entry_topic_1.connect("activate", new_topic, entry_topic_1)
         box_00a.append(entry_topic_1)
-
-        button_topic_delete = Gtk.Button(label="Remove")
-        button_topic_delete.connect("clicked", button_topic_delete_clicked)
-        box_00a.append(button_topic_delete)
 
         label_topic_empty = Gtk.Label()
         label_topic_empty.set_size_request(100, 15)
@@ -375,6 +376,13 @@ class MyApp(Gtk.Application):
         box_00a.append(listbox_topic)
 
         load_topics()
+
+        label_topic_delete_empty = Gtk.Label()
+        box_00a.append(label_topic_delete_empty)
+
+        button_topic_delete = Gtk.Button(label="Remove")
+        button_topic_delete.connect("clicked", button_topic_delete_clicked)
+        box_00a.append(button_topic_delete)
 
         seperator_1 = Gtk.Separator()
         box0.append(seperator_1)
