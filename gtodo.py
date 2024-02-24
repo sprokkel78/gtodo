@@ -19,10 +19,17 @@ global thread_started
 thread_started = False
 
 global homedir
+global topic
+topic = "Main"
 
 entry_todo = Gtk.Entry()
 entry_priority = Gtk.Entry()
 listbox_todo = Gtk.ListBox()
+hbox_topic = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+label_title = Gtk.Label()
+listbox_topic = Gtk.ListBox()
+box0 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+box_00a = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 
 # STARTUP CHECKS
 
@@ -50,15 +57,16 @@ is_dark_mode_enabled()
 
 def button_done_clicked(obj, listbox, row, label):
     global homedir
+    global topic
     #print(str(obj))
     entry = label.get_text()
     #print(entry)
     listbox.remove(row)
-    command = "cat " + homedir + "/.gtodo/Main.txt | grep -v \"" + entry + "\" > " + homedir + "/.gtodo/Main.txt.new"
+    command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + entry + "\" > " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
     sleep(0.5)
-    command = "cp " + homedir + "/.gtodo/Main.txt.new " + homedir + "/.gtodo/Main.txt; rm " + homedir + "/.gtodo/Main.txt.new"
+    command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
 
@@ -98,13 +106,14 @@ def reload_lists():
 
 def load_todo_lists():
     global homedir
+    global topic
     print("loading todo lists")
     homedir = os.path.expanduser("~")
     #print(homedir)
-    if os.path.exists(homedir + "/.gtodo/Main.txt"):
-        print("Found Main.txt")
+    if os.path.exists(homedir + "/.gtodo/" + topic + ".txt"):
+        print("Found " + topic + ".txt")
         x = 0
-        with open(homedir + "/.gtodo/Main.txt", "r") as file:
+        with open(homedir + "/.gtodo/" + topic + ".txt", "r") as file:
             for line in file:
                 if line != "\n":
                     #print(line)
@@ -141,32 +150,33 @@ def load_todo_lists():
 
 
 def change_priority(obj, label_todo, entry_prio, row):
+    global topic
     print("changing priority")
     todo = label_todo.get_text()
     prio = entry_prio.get_text()
 
     listbox_todo.remove(row)
-    command = "cat " + homedir + "/.gtodo/Main.txt | grep -v \"" + todo + "\" > " + homedir + "/.gtodo/Main.txt.new"
+    command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + todo + "\" > " + homedir + "/.gtodo/" + topic + "txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
     sleep(0.5)
-    command = "cp " + homedir + "/.gtodo/Main.txt.new " + homedir + "/.gtodo/Main.txt; rm " + homedir + "/.gtodo/Main.txt.new"
+    command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + "txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
 
     line = prio + ";" + todo
 
-    file_path = homedir + "/.gtodo/Main.txt"
+    file_path = homedir + "/.gtodo/" + topic + ".txt"
     with open(file_path, "a") as file:
         # Write the content to append
         file.write(line + "\n")
     sleep(1)
 
-    command = "cat " + homedir + "/.gtodo/Main.txt | sort > " + homedir + "/.gtodo/Main.txt.new"
+    command = "cat " + homedir + "/.gtodo/" + topic + ".txt | sort > " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
     sleep(0.5)
-    command = "cp " + homedir + "/.gtodo/Main.txt.new " + homedir + "/.gtodo/Main.txt; rm " + homedir + "/.gtodo/Main.txt.new"
+    command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
     sleep(0.5)
@@ -175,6 +185,7 @@ def change_priority(obj, label_todo, entry_prio, row):
 
 
 def button_todo_clicked(obj):
+    global topic
     todo = entry_todo.get_text()
     prio = entry_priority.get_text()
 
@@ -206,21 +217,108 @@ def button_todo_clicked(obj):
 
         line = prio + ";" + todo
 
-        file_path = homedir + "/.gtodo/Main.txt"
+        file_path = homedir + "/.gtodo/" + topic + ".txt"
         with open(file_path, "a") as file:
             # Write the content to append
             file.write(line + "\n")
         sleep(1)
 
-        command = "cat " + homedir + "/.gtodo/Main.txt | sort > " + homedir + "/.gtodo/Main.txt.new"
+        command = "cat " + homedir + "/.gtodo/" + topic + ".txt | sort > " + homedir + "/.gtodo/" + topic + ".txt.new"
         result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         out = result.communicate()
         sleep(0.5)
-        command = "cp " + homedir + "/.gtodo/Main.txt.new " + homedir + "/.gtodo/Main.txt; rm " + homedir + "/.gtodo/Main.txt.new"
+        command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
         result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         out = result.communicate()
         sleep(0.5)
         reload_lists()
+
+
+def new_topic(obj, entry):
+    global topic
+    topic = entry.get_text()
+    if topic != "" and ";" not in topic:
+        if not os.path.exists(os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"):
+            command = "touch " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
+            result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            out = result.communicate()
+
+            label_topic = Gtk.Label(label=topic)
+            hbox_topic.append(label_topic)
+        entry.set_text("")
+
+        listbox_topic.remove_all()
+        load_topics()
+        topic_changed(0, 0, 0, 0, label_topic)
+
+def load_topics():
+    global homedir
+    global listbox_topic
+    global hbox_topic
+
+    homedir = os.path.expanduser("~")
+    print("loading topics")
+    command = "ls -l " + homedir + "/.gtodo/*.txt"
+    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+    print(out[0])
+    line = out[0].split("\n")
+
+    listbox_topic.remove_all()
+    sleep(0.5)
+
+    x = 0
+
+    row = Gtk.ListBoxRow()
+
+    label_topic_3 = Gtk.Label()
+    label_topic_3.set_text("Main")
+    gesture = Gtk.GestureClick()
+    gesture.connect("pressed", topic_changed, label_topic_3)
+    label_topic_3.add_controller(gesture)
+
+    row.set_child(label_topic_3)
+    listbox_topic.append(row)
+
+    while x < len(line) -1:
+        name = line[x]
+        topic_name = name.split("/")
+        topic_real_name = topic_name[4].split(".")
+        print(topic_real_name[0])
+        x = x + 1
+        if topic_real_name[0] != "Main":
+            row = Gtk.ListBoxRow()
+            label_topic = Gtk.Label()
+            label_topic.set_text(topic_real_name[0])
+            gesture = Gtk.GestureClick()
+            gesture.connect("pressed", topic_changed, label_topic)
+            label_topic.add_controller(gesture)
+            row.set_child(label_topic)
+            listbox_topic.append(row)
+
+
+def button_topic_delete_clicked(obj):
+    global topic
+    global topic_title
+
+    if topic != "Main":
+        if os.path.exists(os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"):
+            command = "rm " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
+            result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            out = result.communicate()
+
+        topic = "Main"
+        label = Gtk.Label(label=topic)
+        topic_changed(0, 0, 0, 0, label)
+        load_topics()
+
+def topic_changed(obj, obj1, obj2, obj3, label):
+    print("topic changed")
+    global topic
+    global label_title
+    topic = label.get_text()
+    label_title.set_text(" -> " + topic)
+    reload_lists()
 
 # CREATE THE USER INTERFACE
 class MainWindow(Gtk.ApplicationWindow):
@@ -239,13 +337,13 @@ class MyApp(Gtk.Application):
         win.set_title("gTodo " + ver)
         win.set_default_size(800, 500)
         win.set_resizable(False)
-        box0 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        global box0
         win.set_child(box0)
 
         seperator_5 = Gtk.Separator()
         box0.append(seperator_5)
 
-        box_00a = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+        global box_00a
         box0.append(box_00a)
 
         label_spacer_3 = Gtk.Label()
@@ -256,18 +354,27 @@ class MyApp(Gtk.Application):
         label_topic.set_size_request(100, -1)
         box_00a.append(label_topic)
 
-
-        listbox_topic = Gtk.ListBox()
-        box_00a.append(listbox_topic)
-
         # Create listbox columns
 
-        hbox_topic = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-        listbox_topic.append(hbox_topic)
+        entry_topic_1 = Gtk.Entry()
+        entry_topic_1.set_max_length(12)
+        entry_topic_1.set_editable(True)
+        entry_topic_1.set_placeholder_text("New")
+        entry_topic_1.connect("activate", new_topic, entry_topic_1)
+        box_00a.append(entry_topic_1)
 
-        label_topic_1 = Gtk.Label(label="Main")
-        label_topic_1.set_size_request(100, 25)
-        hbox_topic.append(label_topic_1)
+        button_topic_delete = Gtk.Button(label="Remove")
+        button_topic_delete.connect("clicked", button_topic_delete_clicked)
+        box_00a.append(button_topic_delete)
+
+        label_topic_empty = Gtk.Label()
+        label_topic_empty.set_size_request(100, 15)
+        box_00a.append(label_topic_empty)
+
+
+        box_00a.append(listbox_topic)
+
+        load_topics()
 
         seperator_1 = Gtk.Separator()
         box0.append(seperator_1)
@@ -307,7 +414,7 @@ class MyApp(Gtk.Application):
         box_title = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         box_11a.append(box_title)
 
-        label_title = Gtk.Label(label=" -> Main")
+        label_title.set_text(" -> " + topic)
         label_title.set_size_request(100, 30)
         label_title.set_xalign(0.0)
         box_title.append(label_title)
