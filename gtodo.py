@@ -56,8 +56,45 @@ def button_done_clicked(obj, listbox, row, label):
     listbox.remove(row)
     command = "cat " + homedir + "/.gtodo/Main.txt | grep -v \"" + entry + "\" > " + homedir + "/.gtodo/Main.txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+    sleep(0.5)
     command = "cp " + homedir + "/.gtodo/Main.txt.new " + homedir + "/.gtodo/Main.txt; rm " + homedir + "/.gtodo/Main.txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+
+    reload_lists()
+
+
+def reload_lists():
+    listbox_todo.remove_all()
+    sleep(0.5)
+    hbox_todo = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+    listbox_todo.append(hbox_todo)
+
+    label_todo_1 = Gtk.Button(label="Todo Items")
+    # label_todo_1.set_xalign(0.0)
+    label_todo_1.set_size_request(500, 25)
+    hbox_todo.append(label_todo_1)
+
+    label_todo_2 = Gtk.Button(label="Priority")
+    label_todo_2.set_size_request(89, -1)
+    # label_todo_2.set_xalign(0.0)
+    hbox_todo.append(label_todo_2)
+
+    label_todo_3 = Gtk.Button(label="Done")
+    label_todo_3.set_size_request(106, -1)
+    hbox_todo.append(label_todo_3)
+
+    hbox_spacer = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+    listbox_todo.append(hbox_spacer)
+
+    seperator_2 = Gtk.Separator()
+    hbox_spacer.append(seperator_2)
+    sleep(0.5)
+    load_todo_lists()
+    entry_todo.set_text("")
+    entry_todo.grab_focus()
+
 
 def load_todo_lists():
     global homedir
@@ -87,28 +124,63 @@ def load_todo_lists():
                         hbox_x_x.append(label_x_x)
 
                         entry_prio_x_x = Gtk.Entry()
-                        entry_prio_x_x.set_size_request(1, -1)
+                        entry_prio_x_x.set_size_request(89, -1)
                         entry_prio_x_x.set_max_length(1)
+                        entry_prio_x_x.set_editable(True)
+                        entry_prio_x_x.connect("activate", change_priority, label_x_x, entry_prio_x_x, row)
                         hbox_x_x.append(entry_prio_x_x)
                         entry_prio_x_x.set_text(todo_2[0])
 
                         button_done_x_x = Gtk.Button(label="Done")
-                        button_done_x_x.set_size_request(110, -1)
+                        button_done_x_x.set_size_request(107, -1)
                         button_done_x_x.connect("clicked", button_done_clicked, listbox_todo, row, label_x_x)
                         hbox_x_x.append(button_done_x_x)
 
                         row.set_child(hbox_x_x)
                         listbox_todo.append(row)
+
+
+def change_priority(obj, label_todo, entry_prio, row):
+    print("changing priority")
+    todo = label_todo.get_text()
+    prio = entry_prio.get_text()
+
+    listbox_todo.remove(row)
+    command = "cat " + homedir + "/.gtodo/Main.txt | grep -v \"" + todo + "\" > " + homedir + "/.gtodo/Main.txt.new"
+    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+    sleep(0.5)
+    command = "cp " + homedir + "/.gtodo/Main.txt.new " + homedir + "/.gtodo/Main.txt; rm " + homedir + "/.gtodo/Main.txt.new"
+    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+
+    line = prio + ";" + todo
+
+    file_path = homedir + "/.gtodo/Main.txt"
+    with open(file_path, "a") as file:
+        # Write the content to append
+        file.write(line + "\n")
+    sleep(1)
+
+    command = "cat " + homedir + "/.gtodo/Main.txt | sort > " + homedir + "/.gtodo/Main.txt.new"
+    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+    sleep(0.5)
+    command = "cp " + homedir + "/.gtodo/Main.txt.new " + homedir + "/.gtodo/Main.txt; rm " + homedir + "/.gtodo/Main.txt.new"
+    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+    sleep(0.5)
+
+    reload_lists()
+
+
 def button_todo_clicked(obj):
-    #print("ADD")
     todo = entry_todo.get_text()
     prio = entry_priority.get_text()
 
-    #print(todo)
-    if entry_todo.get_text() != "" and ";" not in entry_todo.get_text():
+    if entry_todo.get_text() != "" and ";" not in entry_todo.get_text() and "\"" not in entry_todo.get_text():
         print("adding entry")
         row = Gtk.ListBoxRow()
-
         hbox_todo = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         label_todo = Gtk.Label(label=todo)
 
@@ -119,6 +191,8 @@ def button_todo_clicked(obj):
         entry_prio_x_x = Gtk.Entry()
         entry_prio_x_x.set_size_request(10, -1)
         entry_prio_x_x.set_max_length(1)
+        entry_prio_x_x.set_editable(True)
+        entry_prio_x_x.connect("activate", change_priority, label_todo, entry_prio_x_x, row)
         hbox_todo.append(entry_prio_x_x)
         entry_prio_x_x.set_text(prio)
 
@@ -146,29 +220,7 @@ def button_todo_clicked(obj):
         result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         out = result.communicate()
         sleep(0.5)
-        listbox_todo.remove_all()
-
-        hbox_todo = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        listbox_todo.append(hbox_todo)
-
-        label_todo_1 = Gtk.Label(label=" -> Todo Items")
-        label_todo_1.set_xalign(0.0)
-        label_todo_1.set_size_request(500, 25)
-        hbox_todo.append(label_todo_1)
-
-        label_todo_2 = Gtk.Label(label="Priority")
-        label_todo_2.set_size_request(85, -1)
-        label_todo_2.set_xalign(0.0)
-        hbox_todo.append(label_todo_2)
-
-        label_todo_3 = Gtk.Label(label="Click when done")
-        label_todo_3.set_size_request(80, -1)
-        hbox_todo.append(label_todo_3)
-
-        sleep(0.5)
-        load_todo_lists()
-        entry_todo.set_text("")
-        entry_todo.grab_focus()
+        reload_lists()
 
 # CREATE THE USER INTERFACE
 class MainWindow(Gtk.ApplicationWindow):
@@ -190,19 +242,20 @@ class MyApp(Gtk.Application):
         box0 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         win.set_child(box0)
 
+        seperator_5 = Gtk.Separator()
+        box0.append(seperator_5)
+
         box_00a = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         box0.append(box_00a)
 
         label_spacer_3 = Gtk.Label()
-        label_spacer_3.set_size_request(-1, 23)
+        label_spacer_3.set_size_request(-1, 17)
         box_00a.append(label_spacer_3)
 
-        label_topic = Gtk.Label(label="TOPICS")
+        label_topic = Gtk.Button(label="TOPICS")
         label_topic.set_size_request(100, -1)
         box_00a.append(label_topic)
 
-        label_spacer_4 = Gtk.Label()
-        box_00a.append(label_spacer_4)
 
         listbox_topic = Gtk.ListBox()
         box_00a.append(listbox_topic)
@@ -250,14 +303,13 @@ class MyApp(Gtk.Application):
         button_todo.connect("clicked", button_todo_clicked)
         box_11b.append(button_todo)
 
-        label_spacer_1 = Gtk.Label()
-        box_11a.append(label_spacer_1)
 
         box_title = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         box_11a.append(box_title)
 
-        label_title = Gtk.Label(label="- Main -")
-        label_title.set_size_request(100, -1)
+        label_title = Gtk.Label(label=" -> Main")
+        label_title.set_size_request(100, 30)
+        label_title.set_xalign(0.0)
         box_title.append(label_title)
 
         label_spacer_2 = Gtk.Label()
@@ -271,30 +323,15 @@ class MyApp(Gtk.Application):
 
         # Create listbox columns
 
-        hbox_todo = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        listbox_todo.append(hbox_todo)
+        reload_lists()
 
-        label_todo_1 = Gtk.Label(label=" -> Todo Items")
-        label_todo_1.set_xalign(0.0)
-        label_todo_1.set_size_request(500, 25)
-        hbox_todo.append(label_todo_1)
-
-        label_todo_2 = Gtk.Label(label="Priority")
-        label_todo_2.set_size_request(85, -1)
-        label_todo_2.set_xalign(0.0)
-        hbox_todo.append(label_todo_2)
-
-        label_todo_3 = Gtk.Label(label="Click when done")
-        label_todo_3.set_size_request(80, -1)
-        hbox_todo.append(label_todo_3)
-
-        entry_todo.grab_focus()
-        load_todo_lists()
+        seperator_3 = Gtk.Separator()
+        box0.append(seperator_3)
 
         win.present()
 
 
 # START THE APP
 
-app = MyApp(application_id="com.sprokkel78.glanscan")
+app = MyApp(application_id="com.sprokkel78.gtodo")
 app.run(None)
