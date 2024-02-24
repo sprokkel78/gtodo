@@ -245,6 +245,7 @@ def new_topic(obj, entry):
 
             label_topic = Gtk.Label(label=topic)
             hbox_topic.append(label_topic)
+
         entry.set_text("")
 
         listbox_topic.remove_all()
@@ -295,6 +296,9 @@ def load_topics():
             label_topic.add_controller(gesture)
             row.set_child(label_topic)
             listbox_topic.append(row)
+            if topic_real_name[0] == topic:
+                print("ok")
+                listbox_topic.select_row(row)
 
 
 def button_topic_delete_clicked(obj):
@@ -311,6 +315,8 @@ def button_topic_delete_clicked(obj):
         label = Gtk.Label(label=topic)
         topic_changed(0, 0, 0, 0, label)
         load_topics()
+        listbox_topic.select_row(listbox_topic.get_row_at_index(0))
+
 
 def topic_changed(obj, obj1, obj2, obj3, label):
     print("topic changed")
