@@ -1,6 +1,6 @@
 gtodo-sprokkel78
 
-A graphical user interface in PyGTK4 for performing TODO list items on MAC, Ubuntu and other Linux distro's. 
+A graphical user interface in PyGTK4 for performing TODO list items on Ubuntu and other Linux distro's. 
 It requires Python3.10 or higher, Pip, Venv and the PyGTK apps, it also relies on gnome-terminal for performing portscans.
 Developed and tested on Ubuntu 23.10 and MacMini 2020. 
 
