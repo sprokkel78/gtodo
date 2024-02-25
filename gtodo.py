@@ -76,6 +76,7 @@ def button_done_clicked(obj, listbox, row, label):
 
 
 def reload_lists():
+    print("Reloading the todo lists.")
     listbox_todo.remove_all()
     sleep(0.5)
     hbox_todo = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
@@ -109,7 +110,7 @@ def reload_lists():
 def load_todo_lists():
     global homedir
     global topic
-    print("loading todo lists")
+    print("loading todo lists.")
     homedir = os.path.expanduser("~")
     #print(homedir)
     if os.path.exists(homedir + "/.gtodo/" + topic + ".txt"):
@@ -153,10 +154,10 @@ def load_todo_lists():
 
 def change_priority(obj, label_todo, entry_prio, row):
     global topic
-    print("changing priority")
+    print("Changing priority.")
     todo = label_todo.get_text()
     prio = entry_prio.get_text()
-    print(todo)
+    #print(todo)
     listbox_todo.remove(row)
     command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + todo + "\" > " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -193,7 +194,7 @@ def button_todo_clicked(obj):
     prio = entry_priority.get_text()
 
     if entry_todo.get_text() != "" and ";" not in entry_todo.get_text() and "\"" not in entry_todo.get_text():
-        print("adding entry")
+        print("Adding entry.")
         row = Gtk.ListBoxRow()
         hbox_todo = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         label_todo = Gtk.Label(label=todo)
@@ -240,7 +241,7 @@ def button_todo_clicked(obj):
 def new_topic(obj, entry):
     global topic
     topic = entry.get_text()
-    if topic != "" and ";" not in topic:
+    if topic != "" and ";" not in topic and "." not in topic:
         if not os.path.exists(os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"):
             command = "touch " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
             result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -257,6 +258,7 @@ def new_topic(obj, entry):
         topic_changed(0, 0, 0, 0, label_topic)
 
 def load_topics():
+    print("Loading topics.")
     global homedir
     global listbox_topic
     global hbox_topic
@@ -266,11 +268,11 @@ def load_topics():
     row = Gtk.ListBoxRow()
 
     homedir = os.path.expanduser("~")
-    print("loading topics")
+    #print("loading topics")
     command = "ls -l " + homedir + "/.gtodo/*.txt"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
-    print(out[0])
+    #print(out[0])
     line = out[0].split("\n")
 
     listbox_topic.remove_all()
@@ -291,7 +293,7 @@ def load_topics():
         name = line[x]
         topic_name = name.split("/")
         topic_real_name = topic_name[4].split(".")
-        print(topic_real_name[0])
+        #print(topic_real_name[0])
 
         if topic_real_name[0] != "Main":
             row = Gtk.ListBoxRow()
@@ -303,8 +305,8 @@ def load_topics():
             row.set_child(label_topic)
             listbox_topic.append(row)
             if topic_real_name[0] == topic:
-                print("ok")
-                print(topic_real_name[0] + str(row))
+                #print("ok")
+                #print(topic_real_name[0] + str(row))
                 listbox_topic.select_row(row)
         else:
             if remove == 1:
@@ -334,7 +336,7 @@ def button_topic_delete_clicked(obj):
 
 
 def topic_changed(obj, obj1, obj2, obj3, label):
-    print("topic changed")
+    print("Topic changed.")
     global topic
     global label_title
     topic = label.get_text()
@@ -427,6 +429,7 @@ class MyApp(Adw.Application):
         global entry_todo
         entry_todo.set_placeholder_text("New Todo")
         entry_todo.set_size_request(500, -1)
+        entry_todo.set_max_length(80)
         box_11b.append(entry_todo)
 
         global entry_priority
