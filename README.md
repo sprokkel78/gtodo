@@ -12,7 +12,7 @@ Installation on Ubuntu 23.10
 
 Added 'install.sh' script for system-wide installation.
 - The startup shell script will be /usr/bin/gtodo
-- The application is installed in /usr/share/todo-sprokkel78
+- The application is installed in /usr/share/gtodo-sprokkel78
 - The .desktop file is placed in /usr/share/applications/com.sprokkel78.gtodo.desktop
 
 Added 'uninstall.sh' script for system-wide uninstallation.
