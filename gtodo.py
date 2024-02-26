@@ -1,13 +1,10 @@
 import os.path
-import socket
 import subprocess
-import sys
 import gi
-import threading
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
-from gi.repository import Gtk, GLib, Gdk, Adw
+from gi.repository import Gtk, Adw
 from time import sleep
 
 # VERSION = 1.0.1
@@ -448,7 +445,7 @@ class MyApp(Adw.Application):
         box_11a.append(box_title)
 
         label_title.set_text(" -> " + topic)
-        label_title.set_size_request(100, 30)
+        label_title.set_size_request(100, 35)
         label_title.set_xalign(0.0)
         box_title.append(label_title)
 
