@@ -385,7 +385,7 @@ class MyApp(Adw.Application):
         # Create listbox columns
 
         entry_topic_1 = Gtk.Entry()
-        entry_topic_1.set_max_length(12)
+        entry_topic_1.set_max_length(20)
         entry_topic_1.set_editable(True)
         entry_topic_1.set_placeholder_text("Add Topic")
         entry_topic_1.connect("activate", new_topic, entry_topic_1)
