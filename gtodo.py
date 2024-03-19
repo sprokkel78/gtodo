@@ -10,8 +10,9 @@ from time import sleep
 # VERSION = 1.0.2
 ver = "1.0.2"
 
-
+#=====================================================================================================
 # GLOBAL VARIABLES
+#=====================================================================================================
 global thread
 global thread_started
 thread_started = False
@@ -32,8 +33,9 @@ box_00a = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 statusbar = Gtk.Statusbar()
 
 
+#=====================================================================================================
 # STARTUP CHECKS
-
+#=====================================================================================================
 if not os.path.exists(os.path.expanduser("~") + "/.gtodo"):
     command = "mkdir " + os.path.expanduser("~") + "/.gtodo"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -43,7 +45,10 @@ if not os.path.exists(os.path.expanduser("~") + "/.gtodo/Main.txt"):
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
 
+
+#=====================================================================================================
 # ACCOUNT FOR DARK MODE.
+#=====================================================================================================
 def is_dark_mode_enabled():
     command = 'osascript -e "tell app \\"System Events\\" to tell appearance preferences to get dark mode"'
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -56,6 +61,10 @@ def is_dark_mode_enabled():
 
 is_dark_mode_enabled()
 
+
+#=====================================================================================================
+# USER INTERFACE FUNCTIONS
+#=====================================================================================================
 def button_done_clicked(obj, listbox, row, label):
     global homedir
     global topic
@@ -241,6 +250,7 @@ def button_todo_clicked(obj):
 
         statusbar.push(0, "Todo item added.")
 
+
 def new_topic(obj, entry):
     global topic
     topic = entry.get_text()
@@ -260,6 +270,7 @@ def new_topic(obj, entry):
         load_topics()
         topic_changed(0, 0, 0, 0, label_topic)
         statusbar.push(0, "Created new topic.")
+
 
 def load_topics():
     print("Loading topics.")
@@ -319,6 +330,7 @@ def load_topics():
 
         x = x + 1
 
+
 def button_topic_delete_clicked(obj):
     global topic
     global topic_title
@@ -350,8 +362,9 @@ def topic_changed(obj, obj1, obj2, obj3, label):
     statusbar.push(0, "Topic changed to: " + topic)
 
 
-
+#=====================================================================================================
 # CREATE THE USER INTERFACE
+#=====================================================================================================
 class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -386,7 +399,7 @@ class MyApp(Adw.Application):
         label_spacer_3.set_size_request(-1, 17)
         box_00a.append(label_spacer_3)
 
-        label_topic = Gtk.Button(label="TOPICS")
+        label_topic = Gtk.Button(label="TOPICS LIST")
         label_topic.set_size_request(100, -1)
         box_00a.append(label_topic)
 
@@ -395,7 +408,7 @@ class MyApp(Adw.Application):
         entry_topic_1 = Gtk.Entry()
         entry_topic_1.set_max_length(20)
         entry_topic_1.set_editable(True)
-        entry_topic_1.set_placeholder_text("Add Topic")
+        entry_topic_1.set_placeholder_text("Add New Topic")
         entry_topic_1.connect("activate", new_topic, entry_topic_1)
         box_00a.append(entry_topic_1)
 
@@ -410,7 +423,7 @@ class MyApp(Adw.Application):
         label_topic_delete_empty = Gtk.Label()
         box_00a.append(label_topic_delete_empty)
 
-        button_topic_delete = Gtk.Button(label="Remove")
+        button_topic_delete = Gtk.Button(label="Remove Topic")
         button_topic_delete.connect("clicked", button_topic_delete_clicked)
         box_00a.append(button_topic_delete)
 
@@ -432,7 +445,7 @@ class MyApp(Adw.Application):
         box_11a.append(box_11b)
 
         global entry_todo
-        entry_todo.set_placeholder_text("New Todo")
+        entry_todo.set_placeholder_text("New Todo Item")
         entry_todo.set_size_request(500, -1)
         entry_todo.set_max_length(80)
         box_11b.append(entry_todo)
@@ -483,7 +496,8 @@ class MyApp(Adw.Application):
         win.present()
 
 
+#=====================================================================================================
 # START THE APP
-
+#=====================================================================================================
 app = MyApp(application_id="com.sprokkel78.gtodo")
 app.run(None)
