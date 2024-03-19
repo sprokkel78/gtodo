@@ -29,6 +29,8 @@ label_title = Gtk.Label()
 listbox_topic = Gtk.ListBox()
 box0 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 box_00a = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
+statusbar = Gtk.Statusbar()
+
 
 # STARTUP CHECKS
 
@@ -70,6 +72,7 @@ def button_done_clicked(obj, listbox, row, label):
     out = result.communicate()
 
     reload_lists()
+    statusbar.push(0, "Todo item removed.")
 
 
 def reload_lists():
@@ -184,6 +187,8 @@ def change_priority(obj, label_todo, entry_prio, row):
 
     reload_lists()
 
+    statusbar.push(0, "Todo item priority changed.")
+
 
 def button_todo_clicked(obj):
     global topic
@@ -234,6 +239,7 @@ def button_todo_clicked(obj):
         sleep(0.5)
         reload_lists()
 
+        statusbar.push(0, "Todo item added.")
 
 def new_topic(obj, entry):
     global topic
@@ -253,6 +259,7 @@ def new_topic(obj, entry):
         listbox_topic.remove_all()
         load_topics()
         topic_changed(0, 0, 0, 0, label_topic)
+        statusbar.push(0, "Created new topic.")
 
 def load_topics():
     print("Loading topics.")
@@ -330,6 +337,7 @@ def button_topic_delete_clicked(obj):
         listbox_topic.append(row)
         topic_changed(0, 0, 0, 0, label)
         load_topics()
+        statusbar.push(0, "Topic removed.")
 
 
 def topic_changed(obj, obj1, obj2, obj3, label):
@@ -339,7 +347,7 @@ def topic_changed(obj, obj1, obj2, obj3, label):
     topic = label.get_text()
     label_title.set_text(" -> " + topic)
     reload_lists()
-
+    statusbar.push(0, "Topic changed to: " + topic)
 
 
 
@@ -453,7 +461,7 @@ class MyApp(Adw.Application):
         box_11a.append(label_spacer_2)
 
         scrolled_window = Gtk.ScrolledWindow()
-        scrolled_window.set_size_request(700, 700)
+        scrolled_window.set_size_request(700, 785)
         global listbox_todo
         box_11a.append(scrolled_window)
         scrolled_window.set_child(listbox_todo)
@@ -466,6 +474,11 @@ class MyApp(Adw.Application):
         box0.append(seperator_3)
 
         listbox_topic.select_row(listbox_topic.get_row_at_index(0))
+
+        global statusbar
+        statusbar.set_size_request(500, 30)
+        box2.append(statusbar)
+        statusbar.push(0, "Ready.")
 
         win.present()
 
