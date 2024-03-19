@@ -7,8 +7,8 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw
 from time import sleep
 
-# VERSION = 1.0.1
-ver = "1.0.1"
+# VERSION = 1.0.2
+ver = "1.0.2"
 
 
 # GLOBAL VARIABLES
