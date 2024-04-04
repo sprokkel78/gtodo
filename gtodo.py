@@ -21,6 +21,8 @@ global homedir
 global topic
 topic = "Main"
 remove = 0
+topic_edit = 0
+old_topic = ""
 
 entry_todo = Gtk.Entry()
 entry_priority = Gtk.Entry()
@@ -31,7 +33,7 @@ listbox_topic = Gtk.ListBox()
 box0 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 box_00a = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
 statusbar = Gtk.Statusbar()
-
+entry_topic_1 = Gtk.Entry()
 
 #=====================================================================================================
 # STARTUP CHECKS
@@ -253,8 +255,10 @@ def button_todo_clicked(obj):
 
 def new_topic(obj, entry):
     global topic
+    global topic_edit
+    global old_topic
     topic = entry.get_text()
-    if topic != "" and ";" not in topic and "." not in topic:
+    if topic != "" and ";" not in topic and "." not in topic and topic_edit == 0:
         if not os.path.exists(os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"):
             command = "touch " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
             result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -264,12 +268,20 @@ def new_topic(obj, entry):
             label_topic = Gtk.Label(label=topic)
             row.set_child(label_topic)
             listbox_topic.append(row)
+    if topic != "" and ";" not in topic and "." not in topic and topic_edit == 1 and topic != "Main":
+        command = "mv " + os.path.expanduser("~") + "/.gtodo/" + old_topic + ".txt " + os.path.expanduser(
+            "~") + "/.gtodo/" + topic + ".txt"
+        result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        out = result.communicate()
+        topic_edit = 0
+        label_topic = Gtk.Label(label=topic)
 
-        entry.set_text("")
-        listbox_topic.remove_all()
-        load_topics()
-        topic_changed(0, 0, 0, 0, label_topic)
-        statusbar.push(0, "Created new topic.")
+    entry.set_text("")
+    listbox_topic.remove_all()
+    load_topics()
+    topic_changed(0, 0, 0, 0, label_topic)
+    statusbar.push(0, "Created new topic.")
+
 
 
 def load_topics():
@@ -362,6 +374,16 @@ def topic_changed(obj, obj1, obj2, obj3, label):
     statusbar.push(0, "Topic changed to: " + topic)
 
 
+def button_topic_edit_clicked(obj):
+    global topic
+    global old_topic
+    global topic_edit
+    print("edit topic: " + topic)
+    topic_edit = 1
+    old_topic = topic
+    entry_topic_1.set_text(topic)
+
+
 #=====================================================================================================
 # CREATE THE USER INTERFACE
 #=====================================================================================================
@@ -405,7 +427,7 @@ class MyApp(Adw.Application):
 
         # Create listbox columns
 
-        entry_topic_1 = Gtk.Entry()
+        global entry_topic_1
         entry_topic_1.set_max_length(20)
         entry_topic_1.set_editable(True)
         entry_topic_1.set_placeholder_text("Add New Topic")
@@ -422,6 +444,10 @@ class MyApp(Adw.Application):
 
         label_topic_delete_empty = Gtk.Label()
         box_00a.append(label_topic_delete_empty)
+
+        button_topic_edit = Gtk.Button(label="Change Topic")
+        button_topic_edit.connect("clicked", button_topic_edit_clicked)
+        box_00a.append(button_topic_edit)
 
         button_topic_delete = Gtk.Button(label="Remove Topic")
         button_topic_delete.connect("clicked", button_topic_delete_clicked)
