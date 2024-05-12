@@ -7,8 +7,8 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Adw
 from time import sleep
 
-# VERSION = 1.0.2
-ver = "1.0.2"
+# VERSION = 1.0.3
+ver = "1.0.3"
 
 #=====================================================================================================
 # GLOBAL VARIABLES
@@ -490,6 +490,8 @@ class MyApp(Adw.Application):
 
         box_title = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
         box_11a.append(box_title)
+        box_statusbar = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        box_11a.append(box_statusbar)
 
         label_title.set_text(" -> " + topic)
         label_title.set_size_request(100, 35)
@@ -516,7 +518,7 @@ class MyApp(Adw.Application):
 
         global statusbar
         statusbar.set_size_request(500, 30)
-        box2.append(statusbar)
+        box_statusbar.append(statusbar)
         statusbar.push(0, "Ready.")
 
         win.present()
