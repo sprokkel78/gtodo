@@ -99,7 +99,7 @@ def reload_lists():
     hbox_todo.append(label_todo_1)
 
     label_todo_2 = Gtk.Button(label="Priority")
-    label_todo_2.set_size_request(89, -1)
+    label_todo_2.set_size_request(120, -1)
     # label_todo_2.set_xalign(0.0)
     hbox_todo.append(label_todo_2)
 
@@ -401,7 +401,7 @@ class MyApp(Adw.Application):
 
         win = MainWindow(application=app)
         win.set_title("gTodo " + ver)
-        win.set_default_size(900, 1020)
+        win.set_default_size(960, 1100)
         win.set_resizable(False)
         global box0
         win.set_child(box0)
@@ -502,7 +502,7 @@ class MyApp(Adw.Application):
         box_11a.append(label_spacer_2)
 
         scrolled_window = Gtk.ScrolledWindow()
-        scrolled_window.set_size_request(700, 785)
+        scrolled_window.set_size_request(700, 850)
         global listbox_todo
         box_11a.append(scrolled_window)
         scrolled_window.set_child(listbox_todo)
@@ -519,7 +519,7 @@ class MyApp(Adw.Application):
         global statusbar
         statusbar.set_size_request(500, 30)
         box_statusbar.append(statusbar)
-        statusbar.push(0, "Ready.")
+        statusbar.push(0, "Ready for input.")
 
         win.present()
 
