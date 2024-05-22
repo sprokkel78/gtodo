@@ -10,6 +10,8 @@ CHANGELOG
 # gtodo-sprokkel78 1.0.3
 - moved statusbar below the todo title.
 - made some small changes to the user interface.
+- changed the way that todo items are deleted. No more accidental deletions.
+- made small changes to the status bar messages.
 
 # gtodo-sprokkel78 1.0.2
 - added statusbar with status messages.

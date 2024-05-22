@@ -1,6 +1,7 @@
 import os.path
 import subprocess
 import gi
+import sys
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
@@ -49,19 +50,19 @@ if not os.path.exists(os.path.expanduser("~") + "/.gtodo/Main.txt"):
 
 
 #=====================================================================================================
-# ACCOUNT FOR DARK MODE.
+# ACCOUNT FOR DARK MODE ON MACOSX.
 #=====================================================================================================
-def is_dark_mode_enabled():
-    command = 'osascript -e "tell app \\"System Events\\" to tell appearance preferences to get dark mode"'
-    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    out, err = result.communicate()
-    out = out.strip()
-    if out == "true":
-        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", True)
-    else:
-        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", False)
+#def is_dark_mode_enabled():
+#    command = 'osascript -e "tell app \\"System Events\\" to tell appearance preferences to get dark mode"'
+#    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+#    out, err = result.communicate()
+#    out = out.strip()
+#    if out == "true":
+#        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", True)
+#    else:
+#        Gtk.Settings.get_default().set_property("gtk-application-prefer-dark-theme", False)
 
-is_dark_mode_enabled()
+#is_dark_mode_enabled()
 
 
 #=====================================================================================================
@@ -74,17 +75,30 @@ def button_done_clicked(obj, listbox, row, label):
     entry = label.get_text()
     #print(entry)
     listbox.remove(row)
-    command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + entry + "\" > " + homedir + "/.gtodo/" + topic + ".txt.new"
-    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    out = result.communicate()
+
+    #command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + entry + "\" > " + homedir + "/.gtodo/" + topic + ".txt.new"
+    #result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    #out = result.communicate()
+
+    todo_list = ""
+    with open(homedir + "/.gtodo/" + topic + ".txt") as f:
+        content = f.readlines()
+        for x in content:
+            line = x.strip()
+            line_split = line.split(";")
+            if line_split[0]:
+                if line_split[1] != entry:
+                    todo_list = todo_list + line + "\n"
+
+    output = homedir + "/.gtodo/" + topic + ".txt"
+    new_topic_file = open(output, "w")
+    new_topic_file.write(todo_list)
+    new_topic_file.close()
+
     sleep(0.5)
-    command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
-    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    out = result.communicate()
 
     reload_lists()
-    statusbar.push(0, "Todo item removed.")
-
+    statusbar.push(0, "Todo item removed > " + entry)
 
 def reload_lists():
     print("Reloading the todo lists.")
@@ -198,7 +212,7 @@ def change_priority(obj, label_todo, entry_prio, row):
 
     reload_lists()
 
-    statusbar.push(0, "Todo item priority changed.")
+    statusbar.push(0, "Todo item priority changed > " + prio + " > "+ todo)
 
 
 def button_todo_clicked(obj):
@@ -250,7 +264,7 @@ def button_todo_clicked(obj):
         sleep(0.5)
         reload_lists()
 
-        statusbar.push(0, "Todo item added.")
+        statusbar.push(0, "Todo item added > " + todo)
 
 
 def new_topic(obj, entry):
