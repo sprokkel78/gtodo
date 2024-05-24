@@ -76,10 +76,6 @@ def button_done_clicked(obj, listbox, row, label):
     #print(entry)
     listbox.remove(row)
 
-    #command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + entry + "\" > " + homedir + "/.gtodo/" + topic + ".txt.new"
-    #result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    #out = result.communicate()
-
     todo_list = ""
     with open(homedir + "/.gtodo/" + topic + ".txt") as f:
         content = f.readlines()
