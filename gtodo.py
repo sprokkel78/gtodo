@@ -47,6 +47,11 @@ if not os.path.exists(os.path.expanduser("~") + "/.gtodo/Main.txt"):
     command = "touch " + os.path.expanduser("~") + "/.gtodo/Main.txt"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
+if not os.path.exists(os.path.expanduser("~") + "/.gtodo/Index.txt"):
+    command = "touch " + os.path.expanduser("~") + "/.gtodo/Index.txt"
+    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+
 
 
 #=====================================================================================================
@@ -159,7 +164,10 @@ def load_todo_lists():
                         entry_prio_x_x = Gtk.Entry()
                         entry_prio_x_x.set_size_request(89, -1)
                         entry_prio_x_x.set_max_length(1)
-                        entry_prio_x_x.set_editable(True)
+                        if topic != "Index":
+                            entry_prio_x_x.set_editable(True)
+                        else:
+                            entry_prio_x_x.set_editable(False)
                         entry_prio_x_x.connect("activate", change_priority, label_x_x, entry_prio_x_x, row)
                         hbox_x_x.append(entry_prio_x_x)
                         entry_prio_x_x.set_text(todo_2[0])
@@ -167,7 +175,9 @@ def load_todo_lists():
                         button_done_x_x = Gtk.Button(label="Done")
                         button_done_x_x.set_size_request(107, -1)
                         button_done_x_x.connect("clicked", button_done_clicked, listbox_todo, row, label_x_x)
-                        hbox_x_x.append(button_done_x_x)
+                        if topic != "Index":
+                            hbox_x_x.append(button_done_x_x)
+
 
                         row.set_child(hbox_x_x)
                         listbox_todo.append(row)
@@ -326,13 +336,14 @@ def load_topics():
     row.set_child(label_topic_3)
     listbox_topic.append(row)
 
+
     while x < len(line) -1:
         name = line[x]
         topic_name = name.split("/")
         topic_real_name = topic_name[4].split(".")
         #print(topic_real_name[0])
 
-        if topic_real_name[0] != "Main":
+        if topic_real_name[0] != "Main" and topic_real_name[0] != "Index":
             row = Gtk.ListBoxRow()
             label_topic = Gtk.Label()
             label_topic.set_text(topic_real_name[0])
@@ -351,6 +362,19 @@ def load_topics():
                 remove = 0
 
         x = x + 1
+
+    row = Gtk.ListBoxRow()
+
+    label_topic_4 = Gtk.Label()
+    label_topic_4.set_text("Index")
+    gesture1 = Gtk.GestureClick()
+    gesture1.connect("pressed", show_index_of_all_items, label_topic_4)
+    label_topic_4.add_controller(gesture1)
+
+    row.set_child(label_topic_4)
+    listbox_topic.append(row)
+
+
 
 
 def button_topic_delete_clicked(obj):
@@ -393,6 +417,19 @@ def button_topic_edit_clicked(obj):
     old_topic = topic
     entry_topic_1.set_text(topic)
 
+
+
+def show_index_of_all_items(one, two, three, four, five):
+    global homedir
+    global topic
+    topic = "Index"
+
+    command = "cat " + homedir + "/.gtodo/*.txt | sort > " + homedir + "/.gtodo/Index.txt"
+    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out = result.communicate()
+    sleep(0.5)
+    listbox_todo.remove_all()
+    load_todo_lists()
 
 #=====================================================================================================
 # CREATE THE USER INTERFACE
