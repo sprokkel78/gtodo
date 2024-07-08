@@ -9,6 +9,7 @@ CHANGELOG
 
 # gtodo-sprokkel78 1.0.4
 - added an Index topic to the list which contains all todo items sorted.
+- moved alignment of topic to the left side.
 
 # gtodo-sprokkel78 1.0.3
 - moved statusbar below the todo title.

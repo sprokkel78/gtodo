@@ -328,6 +328,7 @@ def load_topics():
     x = 0
 
     label_topic_3 = Gtk.Label()
+    label_topic_3.set_xalign(0.0)
     label_topic_3.set_text("Main")
     gesture = Gtk.GestureClick()
     gesture.connect("pressed", topic_changed, label_topic_3)
@@ -346,6 +347,7 @@ def load_topics():
         if topic_real_name[0] != "Main" and topic_real_name[0] != "Index":
             row = Gtk.ListBoxRow()
             label_topic = Gtk.Label()
+            label_topic.set_xalign(0.0)
             label_topic.set_text(topic_real_name[0])
             gesture = Gtk.GestureClick()
             gesture.connect("pressed", topic_changed, label_topic)
@@ -364,8 +366,8 @@ def load_topics():
         x = x + 1
 
     row = Gtk.ListBoxRow()
-
     label_topic_4 = Gtk.Label()
+    label_topic_4.set_xalign(0.0)
     label_topic_4.set_text("Index")
     gesture1 = Gtk.GestureClick()
     gesture1.connect("pressed", show_index_of_all_items, label_topic_4)
@@ -391,6 +393,7 @@ def button_topic_delete_clicked(obj):
         topic = "Main"
         label = Gtk.Label(label=topic)
         row = Gtk.ListBoxRow()
+
         row.set_child(label)
         listbox_topic.append(row)
         topic_changed(0, 0, 0, 0, label)
@@ -448,7 +451,7 @@ class MyApp(Adw.Application):
 
         win = MainWindow(application=app)
         win.set_title("gTodo " + ver)
-        win.set_default_size(960, 1100)
+        win.set_default_size(960, 1000)
         win.set_resizable(False)
         global box0
         win.set_child(box0)
@@ -549,7 +552,7 @@ class MyApp(Adw.Application):
         box_11a.append(label_spacer_2)
 
         scrolled_window = Gtk.ScrolledWindow()
-        scrolled_window.set_size_request(700, 850)
+        scrolled_window.set_size_request(700, 780)
         global listbox_todo
         box_11a.append(scrolled_window)
         scrolled_window.set_child(listbox_todo)
