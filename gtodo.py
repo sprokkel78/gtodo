@@ -5,7 +5,7 @@ import sys
 
 gi.require_version('Gtk', '4.0')
 gi.require_version('Adw', '1')
-from gi.repository import Gtk, Adw
+from gi.repository import Gtk, Gdk, Adw
 from time import sleep
 
 # VERSION = 1.0.4
@@ -110,11 +110,11 @@ def reload_lists():
 
     label_todo_1 = Gtk.Button(label="Todo Items")
     # label_todo_1.set_xalign(0.0)
-    label_todo_1.set_size_request(500, 25)
+    label_todo_1.set_size_request(1000, 25)
     hbox_todo.append(label_todo_1)
 
     label_todo_2 = Gtk.Button(label="Priority")
-    label_todo_2.set_size_request(120, -1)
+    label_todo_2.set_size_request(170, -1)
     # label_todo_2.set_xalign(0.0)
     hbox_todo.append(label_todo_2)
 
@@ -157,12 +157,12 @@ def load_todo_lists():
                         row = Gtk.ListBoxRow()
 
                         label_x_x = Gtk.Label(label=todo_2[1])
-                        label_x_x.set_size_request(500, -1)
+                        label_x_x.set_size_request(1000, -1)
                         label_x_x.set_xalign(0.0)
                         hbox_x_x.append(label_x_x)
 
                         entry_prio_x_x = Gtk.Entry()
-                        entry_prio_x_x.set_size_request(89, -1)
+                        entry_prio_x_x.set_size_request(10, -1)
                         entry_prio_x_x.set_max_length(1)
                         if topic != "Index":
                             entry_prio_x_x.set_editable(True)
@@ -448,11 +448,21 @@ class MyApp(Adw.Application):
         self.connect('activate', self.on_activate)
 
     def on_activate(self, app):
+        # Load the CSS file
+        css_provider = Gtk.CssProvider()
+        css_provider.load_from_path("gtodo.css")
+
+        # Apply the CSS to the default screen
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            css_provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
 
         win = MainWindow(application=app)
         win.set_title("gTodo " + ver)
-        win.set_default_size(960, 1000)
-        win.set_resizable(False)
+        win.set_default_size(1900, 1000)
+        win.set_resizable(True)
         global box0
         win.set_child(box0)
 
@@ -460,7 +470,7 @@ class MyApp(Adw.Application):
         box0.append(seperator_5)
 
         scrolled_window_1 = Gtk.ScrolledWindow()
-        scrolled_window_1.set_size_request(200, 700)
+        scrolled_window_1.set_size_request(400, 1000)
 
         box0.append(scrolled_window_1)
 
@@ -522,7 +532,7 @@ class MyApp(Adw.Application):
 
         global entry_todo
         entry_todo.set_placeholder_text("New Todo Item")
-        entry_todo.set_size_request(500, -1)
+        entry_todo.set_size_request(1000, -1)
         entry_todo.set_max_length(80)
         box_11b.append(entry_todo)
 

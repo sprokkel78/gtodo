@@ -8,6 +8,7 @@ CHANGELOG
 ---------
 
 # gtodo-sprokkel78 1.0.4
+- changed resolution to 1080p + fullscreen.
 - added an Index topic to the list which contains all todo items sorted.
 - moved alignment of topic to the left side.
 
