@@ -461,7 +461,7 @@ class MyApp(Adw.Application):
 
         win = MainWindow(application=app)
         win.set_title("gTodo " + ver)
-        win.set_default_size(1900, 1000)
+        win.set_default_size(1920, 1000)
         win.set_resizable(True)
         global box0
         win.set_child(box0)
