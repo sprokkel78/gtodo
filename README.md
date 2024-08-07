@@ -1,13 +1,20 @@
 gtodo-sprokkel78
 
 A graphical user interface in PyGTK4 for performing TODO list items on Ubuntu and other Linux distro's. 
-It requires Python3.10 or higher and the PyGTK apps. Developed and tested on Ubuntu 23.10.
+It requires Python3.10 and the PyGTK apps. Developed and tested on Ubuntu 24.04.
 
-Installation on Ubuntu 23.10
+Installation on Ubuntu 24.04
 
-1. $sudo apt install python3 python3-dev
-2. $sudo apt install python3-gi python3-gi-cairo gir1.2-gtk-4.0 gir1.2-adw-1
-3. $python3 ./gtodo.py
+1. $git clone https://github.com/sprokkel78/gtodo.git
+2. $cd gtodo
+3. $python3 ./gtodo.py 
+
+For System-Wide Installation, run:
+- $sudo ./install.sh
+
+Then start with:
+- $gtodo
+- or by clicking the application icon.
 
 Added 'install.sh' script for system-wide installation.
 - The startup shell script will be /usr/bin/gtodo
@@ -17,7 +24,10 @@ Added 'install.sh' script for system-wide installation.
 Added 'uninstall.sh' script for system-wide uninstallation.
 - This will delete /usr/bin/gtodo and /usr/share/gtodo-sprokkel78,
   This will also remove /usr/share/applications/com.sprokkel78.gtodo.desktop
-  
+- After uninstall it is optional to remove the .gtodo directory in your home-directory.
+
 Check https://www.github.com/sprokkel78/gtodo for contributing, development features and pre-releases.
+
+Check https://pypi.org/project/gtodo-sprokkel78/ for the full python package.
 
 Funding: Paypal email: sprokkel78.bart@gmail.com
