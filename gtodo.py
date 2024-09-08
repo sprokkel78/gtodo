@@ -8,8 +8,8 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gdk, Adw
 from time import sleep
 
-# VERSION = 1.0.4
-ver = "1.0.4"
+# VERSION = 1.0.5
+ver = "1.0.5"
 
 #=====================================================================================================
 # GLOBAL VARIABLES
@@ -190,22 +190,27 @@ def change_priority(obj, label_todo, entry_prio, row):
     prio = entry_prio.get_text()
     #print(todo)
     listbox_todo.remove(row)
-    command = "cat " + homedir + "/.gtodo/" + topic + ".txt | grep -v \"" + todo + "\" > " + homedir + "/.gtodo/" + topic + ".txt.new"
-    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    out = result.communicate()
-    sleep(0.5)
-    command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
-    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    out = result.communicate()
+    todo_list = "";
+
+    with open(homedir + "/.gtodo/" + topic + ".txt") as f:
+        content = f.readlines()
+        for x in content:
+            line = x.strip()
+            line_split = line.split(";")
+            if line_split[0]:
+                if line_split[1] != todo:
+                    todo_list = todo_list + line + "\n"
+                else:
+                    todo_list = todo_list + prio + ";" + todo + "\n"
+
     sleep(0.5)
 
-    line = prio + ";" + todo
+    output = homedir + "/.gtodo/" + topic + ".txt"
+    new_todo_file = open(output, "w")
+    new_todo_file.write(todo_list)
+    new_todo_file.close()
 
-    file_path = homedir + "/.gtodo/" + topic + ".txt"
-    with open(file_path, "a") as file:
-        # Write the content to append
-        file.write(line + "\n")
-    sleep(1)
+    sleep(0.5)
 
     command = "cat " + homedir + "/.gtodo/" + topic + ".txt | sort > " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
