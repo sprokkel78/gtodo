@@ -111,6 +111,7 @@ def reload_lists():
     label_todo_1 = Gtk.Button(label="Todo Items")
     # label_todo_1.set_xalign(0.0)
     label_todo_1.set_size_request(1000, 25)
+    label_todo_1.set_hexpand(True)
     hbox_todo.append(label_todo_1)
 
     label_todo_2 = Gtk.Button(label="Priority")
@@ -137,6 +138,8 @@ def load_todo_lists():
     global homedir
     global topic
     print("loading todo lists.")
+    listbox_todo.set_hexpand(True)
+
     homedir = os.path.expanduser("~")
     #print(homedir)
     if os.path.exists(homedir + "/.gtodo/" + topic + ".txt"):
@@ -158,6 +161,7 @@ def load_todo_lists():
 
                         label_x_x = Gtk.Label(label=todo_2[1])
                         label_x_x.set_size_request(1000, -1)
+                        label_x_x.set_hexpand(True)
                         label_x_x.set_xalign(0.0)
                         hbox_x_x.append(label_x_x)
 
@@ -533,11 +537,16 @@ class MyApp(Adw.Application):
         box_11a.append(label_spacer)
 
         box_11b = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
+        box_11b.set_hexpand(True)
+        box_11b.set_vexpand(False)
         box_11a.append(box_11b)
+        box_11a.set_hexpand(True)
+        box_11a.set_vexpand(True)
 
         global entry_todo
         entry_todo.set_placeholder_text("New Todo Item")
         entry_todo.set_size_request(1000, -1)
+        entry_todo.set_hexpand(True)
         entry_todo.set_max_length(80)
         box_11b.append(entry_todo)
 
@@ -571,6 +580,7 @@ class MyApp(Adw.Application):
         global listbox_todo
         box_11a.append(scrolled_window)
         scrolled_window.set_child(listbox_todo)
+        scrolled_window.set_hexpand(True)
 
         # Create listbox columns
 
