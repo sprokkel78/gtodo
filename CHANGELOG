@@ -10,6 +10,8 @@ CHANGELOG
 # gtodo-sprokkel78 1.0.5
 - fixed a bug when changing priority of a todo item.
 - made expandable widgets for fullscreen
+- added ctrl-q to quit the app
+- added ctrl-m to minimize the app
 
 # gtodo-sprokkel78 1.0.4
 - changed resolution to 1080p + fullscreen.

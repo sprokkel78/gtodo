@@ -4,6 +4,7 @@ import gi
 import sys
 
 gi.require_version('Gtk', '4.0')
+gi.require_version("Gdk", "4.0")
 gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gdk, Adw
 from time import sleep
@@ -24,6 +25,9 @@ topic = "Main"
 remove = 0
 topic_edit = 0
 old_topic = ""
+
+win = ""
+
 
 entry_todo = Gtk.Entry()
 entry_priority = Gtk.Entry()
@@ -73,6 +77,7 @@ if not os.path.exists(os.path.expanduser("~") + "/.gtodo/Index.txt"):
 #=====================================================================================================
 # USER INTERFACE FUNCTIONS
 #=====================================================================================================
+
 def button_done_clicked(obj, listbox, row, label):
     global homedir
     global topic
@@ -443,6 +448,8 @@ def show_index_of_all_items(one, two, three, four, five):
     listbox_todo.remove_all()
     load_todo_lists()
 
+
+
 #=====================================================================================================
 # CREATE THE USER INTERFACE
 #=====================================================================================================
@@ -452,6 +459,19 @@ class MainWindow(Gtk.ApplicationWindow):
         # Things will go here
 
 class MyApp(Adw.Application):
+
+
+    def on_key_press(self, controller, keyval, keycode, state, win):
+        # Check if Ctrl+Q is pressed
+        ctrl_pressed = state & Gdk.ModifierType.CONTROL_MASK
+        if ctrl_pressed and keyval == Gdk.KEY_q:
+            print("Ctrl+Q pressed, quitting application")
+            self.quit()
+
+        if ctrl_pressed and keyval == Gdk.KEY_m:
+            print("Ctrl+Q pressed, quitting application")
+            win.minimize()
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.connect('activate', self.on_activate)
@@ -472,6 +492,11 @@ class MyApp(Adw.Application):
         win.set_title("gTodo " + ver)
         win.set_default_size(1920, 1000)
         win.set_resizable(True)
+
+        key_controller = Gtk.EventControllerKey()
+        key_controller.connect("key-pressed", self.on_key_press, win)
+        win.add_controller(key_controller)
+
         global box0
         win.set_child(box0)
 
