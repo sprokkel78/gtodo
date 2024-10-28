@@ -37,7 +37,7 @@ label_title = Gtk.Label()
 listbox_topic = Gtk.ListBox()
 box0 = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
 box_00a = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
-statusbar = Gtk.Statusbar()
+statusbar = Gtk.Label(label="")
 entry_topic_1 = Gtk.Entry()
 
 #=====================================================================================================
@@ -104,7 +104,7 @@ def button_done_clicked(obj, listbox, row, label):
     sleep(0.5)
 
     reload_lists()
-    statusbar.push(0, "Todo item removed > " + entry)
+    statusbar.set_text("Todo item removed > " + entry)
 
 def reload_lists():
     print("Reloading the todo lists.")
@@ -232,7 +232,7 @@ def change_priority(obj, label_todo, entry_prio, row):
 
     reload_lists()
 
-    statusbar.push(0, "Todo item priority changed > " + prio + " > "+ todo)
+    statusbar.set_text("Todo item priority changed > " + prio + " > "+ todo)
 
 
 def button_todo_clicked(obj):
@@ -284,7 +284,7 @@ def button_todo_clicked(obj):
         sleep(0.5)
         reload_lists()
 
-        statusbar.push(0, "Todo item added > " + todo)
+        statusbar.set_text("Todo item added > " + todo)
 
 
 def new_topic(obj, entry):
@@ -314,7 +314,7 @@ def new_topic(obj, entry):
     listbox_topic.remove_all()
     load_topics()
     topic_changed(0, 0, 0, 0, label_topic)
-    statusbar.push(0, "Created new topic.")
+    statusbar.set_text("Created new topic.")
 
 
 
@@ -412,7 +412,7 @@ def button_topic_delete_clicked(obj):
         listbox_topic.append(row)
         topic_changed(0, 0, 0, 0, label)
         load_topics()
-        statusbar.push(0, "Topic removed.")
+        statusbar.set_text("Topic removed.")
 
 
 def topic_changed(obj, obj1, obj2, obj3, label):
@@ -422,7 +422,7 @@ def topic_changed(obj, obj1, obj2, obj3, label):
     topic = label.get_text()
     label_title.set_text(" -> " + topic)
     reload_lists()
-    statusbar.push(0, "Topic changed to: " + topic)
+    statusbar.set_text("Topic changed to: " + topic)
 
 
 def button_topic_edit_clicked(obj):
@@ -490,8 +490,9 @@ class MyApp(Adw.Application):
 
         win = MainWindow(application=app)
         win.set_title("gTodo " + ver)
-        win.set_default_size(1920, 1000)
+        win.set_default_size(2000, 1000)
         win.set_resizable(True)
+        #win.fullscreen()
 
         key_controller = Gtk.EventControllerKey()
         key_controller.connect("key-pressed", self.on_key_press, win)
@@ -562,11 +563,7 @@ class MyApp(Adw.Application):
         box_11a.append(label_spacer)
 
         box_11b = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=6)
-        box_11b.set_hexpand(True)
-        box_11b.set_vexpand(False)
         box_11a.append(box_11b)
-        box_11a.set_hexpand(True)
-        box_11a.set_vexpand(True)
 
         global entry_todo
         entry_todo.set_placeholder_text("New Todo Item")
@@ -606,6 +603,7 @@ class MyApp(Adw.Application):
         box_11a.append(scrolled_window)
         scrolled_window.set_child(listbox_todo)
         scrolled_window.set_hexpand(True)
+        scrolled_window.set_vexpand(True)
 
         # Create listbox columns
 
@@ -617,9 +615,10 @@ class MyApp(Adw.Application):
         listbox_topic.select_row(listbox_topic.get_row_at_index(0))
 
         global statusbar
+        statusbar.set_xalign(0.0)
         statusbar.set_size_request(500, 30)
         box_statusbar.append(statusbar)
-        statusbar.push(0, "Ready for input.")
+        statusbar.set_text("Ready for input.")
 
         win.present()
 
