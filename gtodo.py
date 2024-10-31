@@ -115,7 +115,7 @@ def reload_lists():
 
     label_todo_1 = Gtk.Button(label="Todo Items")
     # label_todo_1.set_xalign(0.0)
-    label_todo_1.set_size_request(1000, 25)
+    label_todo_1.set_size_request(690, 25)
     label_todo_1.set_hexpand(True)
     hbox_todo.append(label_todo_1)
 
@@ -165,7 +165,7 @@ def load_todo_lists():
                         row = Gtk.ListBoxRow()
 
                         label_x_x = Gtk.Label(label=todo_2[1])
-                        label_x_x.set_size_request(1000, -1)
+                        label_x_x.set_size_request(700, -1)
                         label_x_x.set_hexpand(True)
                         label_x_x.set_xalign(0.0)
                         hbox_x_x.append(label_x_x)
@@ -490,7 +490,7 @@ class MyApp(Adw.Application):
 
         win = MainWindow(application=app)
         win.set_title("gTodo " + ver)
-        win.set_default_size(1280, 700)
+        win.set_default_size(2000, 900)
         win.set_resizable(True)
         #win.fullscreen()
 
@@ -571,7 +571,7 @@ class MyApp(Adw.Application):
 
         global entry_todo
         entry_todo.set_placeholder_text("New Todo Item")
-        entry_todo.set_size_request(1000, -1)
+        entry_todo.set_size_request(700, -1)
         entry_todo.set_hexpand(True)
         entry_todo.set_max_length(80)
         box_11b.append(entry_todo)
