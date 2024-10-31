@@ -533,7 +533,10 @@ class MyApp(Adw.Application):
         label_topic_empty.set_size_request(100, 15)
         box_00a.append(label_topic_empty)
 
-        box_00a.append(listbox_topic)
+        scrolled_window_topics = Gtk.ScrolledWindow()
+        scrolled_window_topics.set_size_request(300,700)
+        box_00a.append(scrolled_window_topics)
+        scrolled_window_topics.set_child(listbox_topic)
 
         load_topics()
 

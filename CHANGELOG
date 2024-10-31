@@ -14,6 +14,7 @@ CHANGELOG
 - added ctrl-m to minimize the app
 - removed commented lines
 - update to user interface
+- added scrolled_window to topic list
 
 # gtodo-sprokkel78 1.0.4
 - changed resolution to 1080p + fullscreen.
