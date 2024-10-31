@@ -15,6 +15,7 @@ CHANGELOG
 - removed commented lines
 - update to user interface
 - added scrolled_window to topic list
+- fix for resolution
 
 # gtodo-sprokkel78 1.0.4
 - changed resolution to 1080p + fullscreen.
