@@ -31,3 +31,5 @@ Check https://www.github.com/sprokkel78/gtodo for contributing, development feat
 Check https://pypi.org/project/gtodo-sprokkel78/ for the full python package.
 
 Funding: Paypal email: sprokkel78.bart@gmail.com
+
+![Screenshot](https://github.com/sprokkel78/gtodo/blob/develop/screenshots/gTodo-2.png)
