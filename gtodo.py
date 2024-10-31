@@ -490,7 +490,7 @@ class MyApp(Adw.Application):
 
         win = MainWindow(application=app)
         win.set_title("gTodo " + ver)
-        win.set_default_size(1000, 500)
+        win.set_default_size(1280, 700)
         win.set_resizable(True)
         #win.fullscreen()
 
@@ -602,7 +602,7 @@ class MyApp(Adw.Application):
         box_11a.append(label_spacer_2)
 
         scrolled_window = Gtk.ScrolledWindow()
-        scrolled_window.set_size_request(700, 580)
+        scrolled_window.set_size_request(700, 500)
         global listbox_todo
         box_11a.append(scrolled_window)
         scrolled_window.set_child(listbox_todo)
