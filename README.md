@@ -1,11 +1,13 @@
 gtodo-sprokkel78
 
 A graphical user interface in PyGTK4 for performing TODO list items on Ubuntu and other Linux distro's. 
-It requires Python3.10 and the PyGTK apps. Developed on Fedora 40 and tested on Ubuntu 24.04.
+It requires Python3.10 and the PyGTK apps. Developed on Fedora 41 and tested on Ubuntu 24.04.
+
+Runs out of the	box after default installation of Fedora or Ubuntu.
 
 ![Screenshot](https://github.com/sprokkel78/gtodo/blob/develop/screenshots/gTodo-2.png)
 
-Installation on Fedora 40 & Ubuntu 24.04
+Installation on Fedora 41 & Ubuntu 24.04
 
 1. $git clone https://github.com/sprokkel78/gtodo.git
 2. $cd gtodo

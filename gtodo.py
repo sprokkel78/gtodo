@@ -26,9 +26,6 @@ remove = 0
 topic_edit = 0
 old_topic = ""
 
-win = ""
-
-
 entry_todo = Gtk.Entry()
 entry_priority = Gtk.Entry()
 listbox_todo = Gtk.ListBox()
@@ -460,7 +457,6 @@ class MainWindow(Gtk.ApplicationWindow):
 
 class MyApp(Adw.Application):
 
-
     def on_key_press(self, controller, keyval, keycode, state, win):
         # Check if Ctrl+Q is pressed
         ctrl_pressed = state & Gdk.ModifierType.CONTROL_MASK
@@ -469,7 +465,7 @@ class MyApp(Adw.Application):
             self.quit()
 
         if ctrl_pressed and keyval == Gdk.KEY_m:
-            print("Ctrl+Q pressed, quitting application")
+            print("Ctrl+M pressed, minimizing application")
             win.minimize()
 
     def __init__(self, **kwargs):
@@ -625,7 +621,6 @@ class MyApp(Adw.Application):
         statusbar.set_text("Ready for input.")
 
         win.present()
-
 
 #=====================================================================================================
 # START THE APP
