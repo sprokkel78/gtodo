@@ -12,6 +12,8 @@ CHANGELOG
 - update to user interface
 - added scrolled_window to topic list
 - fix for resolution
+- selecting a todo item will now copy it to the entry box on top
+  for copying or editing purposes.
 
 # gtodo-sprokkel78 1.0.5
 - fixed a bug when changing priority of a todo item.

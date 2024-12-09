@@ -157,15 +157,20 @@ def load_todo_lists():
                     if len(todo_2) > 0:
                         #print(todo_2[0])
                         #print(todo_2[1])
-
+                        todo = todo_2[1]
                         hbox_x_x = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
                         row = Gtk.ListBoxRow()
 
-                        label_x_x = Gtk.Label(label=todo_2[1])
+                        label_x_x = Gtk.Label(label=todo)
                         label_x_x.set_size_request(700, -1)
                         label_x_x.set_hexpand(True)
                         label_x_x.set_xalign(0.0)
                         hbox_x_x.append(label_x_x)
+
+                        gesture = Gtk.GestureClick()
+                        gesture.set_button(1)  # 0 means all buttons
+                        gesture.connect("pressed", on_label_clicked, todo)
+                        label_x_x.add_controller(gesture)
 
                         entry_prio_x_x = Gtk.Entry()
                         entry_prio_x_x.set_size_request(10, -1)
@@ -187,6 +192,11 @@ def load_todo_lists():
 
                         row.set_child(hbox_x_x)
                         listbox_todo.append(row)
+
+
+def on_label_clicked(obj, obj1, obj2, obj3, todo):
+    global entry_todo
+    entry_todo.set_text(todo)
 
 
 def change_priority(obj, label_todo, entry_prio, row):
