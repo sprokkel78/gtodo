@@ -32,7 +32,8 @@ Added 'uninstall.sh' script for system-wide uninstallation.
 
 Check https://www.github.com/sprokkel78/gtodo for contributing, development features and pre-releases.
 
-Check https://pypi.org/project/gtodo-sprokkel78/ for the full python package.
+Commercial App available by paying 5 euro -> Paypal email: sprokkel78.bart@gmail.com , the app will be mailed to you.
 
-Funding: Paypal email: sprokkel78.bart@gmail.com
-
+The Commercial App includes:
+- an Index overview of all you todo items.
+- ctrl-q (quit) and ctrl-m (minimize) accelerators.
