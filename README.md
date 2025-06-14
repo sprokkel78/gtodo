@@ -32,7 +32,7 @@ Added 'uninstall.sh' script for system-wide uninstallation.
 
 Check https://www.github.com/sprokkel78/gtodo for contributing, development features and pre-releases.
 
-Commercial App available by paying 5 euro -> Paypal email: sprokkel78.bart@gmail.com , the app will be made available for you.
+Commercial App available by donating 5 euro -> Paypal email: sprokkel78.bart@gmail.com , the app will be made available for you.
 
 The Commercial App includes:
 - an Index overview of all you todo items.
