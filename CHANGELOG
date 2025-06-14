@@ -8,7 +8,9 @@ CHANGELOG
 ---------
 
 # gtodo-sprokkel78 1.0.7
--
+- added info for prohibited characters in the todo entry.
+- removed ctrl-q and ctrl-m from the free version.
+- removed index from the free version.
 
 # gtodo-sprokkel78 1.0.6
 - removed commented lines

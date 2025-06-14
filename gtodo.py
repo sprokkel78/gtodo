@@ -386,16 +386,6 @@ def load_topics():
 
         x = x + 1
 
-    row = Gtk.ListBoxRow()
-    label_topic_4 = Gtk.Label()
-    label_topic_4.set_xalign(0.0)
-    label_topic_4.set_text("Index")
-    gesture1 = Gtk.GestureClick()
-    gesture1.connect("pressed", show_index_of_all_items, label_topic_4)
-    label_topic_4.add_controller(gesture1)
-
-    row.set_child(label_topic_4)
-    listbox_topic.append(row)
 
 
 
@@ -443,20 +433,6 @@ def button_topic_edit_clicked(obj):
 
 
 
-def show_index_of_all_items(one, two, three, four, five):
-    global homedir
-    global topic
-    topic = "Index"
-
-    command = "cat " + homedir + "/.gtodo/*.txt | sort > " + homedir + "/.gtodo/Index.txt"
-    result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    out = result.communicate()
-    sleep(0.5)
-    listbox_todo.remove_all()
-    load_todo_lists()
-
-
-
 #=====================================================================================================
 # CREATE THE USER INTERFACE
 #=====================================================================================================
@@ -466,17 +442,6 @@ class MainWindow(Gtk.ApplicationWindow):
         # Things will go here
 
 class MyApp(Adw.Application):
-
-    def on_key_press(self, controller, keyval, keycode, state, win):
-        # Check if Ctrl+Q is pressed
-        ctrl_pressed = state & Gdk.ModifierType.CONTROL_MASK
-        if ctrl_pressed and keyval == Gdk.KEY_q:
-            print("Ctrl+Q pressed, quitting application")
-            self.quit()
-
-        if ctrl_pressed and keyval == Gdk.KEY_m:
-            print("Ctrl+M pressed, minimizing application")
-            win.minimize()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -499,10 +464,6 @@ class MyApp(Adw.Application):
         win.set_default_size(2000, 900)
         win.set_resizable(True)
         #win.fullscreen()
-
-        key_controller = Gtk.EventControllerKey()
-        key_controller.connect("key-pressed", self.on_key_press, win)
-        win.add_controller(key_controller)
 
         global box0
         win.set_child(box0)
@@ -628,7 +589,7 @@ class MyApp(Adw.Application):
         statusbar.set_xalign(0.0)
         statusbar.set_size_request(500, 30)
         box_statusbar.append(statusbar)
-        statusbar.set_text("Ready for input.")
+        statusbar.set_text("Ready for input. -> ; and \\ can not be used in todo items.")
 
         win.present()
 
