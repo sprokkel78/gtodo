@@ -34,9 +34,10 @@ Check https://www.github.com/sprokkel78/gtodo for contributing, development feat
 
 Commercial App available by donating 5 euro -> Paypal email: sprokkel78.bart@gmail.com , the app will be made available for you.
 
+![Screenshot](https://github.com/sprokkel78/gtodo/blob/develop/screenshots/gTodo-3.png)
+
 The Commercial App includes:
 - an Index overview of all your todo items.
 - ctrl-q (quit) and ctrl-m (minimize) accelerators.
 - ability to print a category.
 
-![Screenshot](https://github.com/sprokkel78/gtodo/blob/develop/screenshots/gTodo-3.png)
