@@ -37,3 +37,4 @@ Commercial App available by donating 5 euro -> Paypal email: sprokkel78.bart@gma
 The Commercial App includes:
 - an Index overview of all you todo items.
 - ctrl-q (quit) and ctrl-m (minimize) accelerators.
+- ability to print a category.
