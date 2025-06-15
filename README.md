@@ -32,12 +32,12 @@ Added 'uninstall.sh' script for system-wide uninstallation.
 
 Check https://www.github.com/sprokkel78/gtodo for contributing, development features and pre-releases.
 
-Commercial App available by donating 5 euro -> Paypal email: sprokkel78.bart@gmail.com , the app will be made available for you.
+Commercial App available by donating 5 euro -> Paypal email: sprokkel78.bart@gmail.com , the app will be made available for you through email.
 
 ![Screenshot](https://github.com/sprokkel78/gtodo/blob/develop/screenshots/gTodo-3.png)
 
 The Commercial App includes:
 - an Index overview of all your todo items.
 - ctrl-q (quit) and ctrl-m (minimize) accelerators.
-- ability to print a category.
+- ability to print a topic.
 
