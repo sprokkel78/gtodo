@@ -38,3 +38,5 @@ The Commercial App includes:
 - an Index overview of all your todo items.
 - ctrl-q (quit) and ctrl-m (minimize) accelerators.
 - ability to print a category.
+
+![Screenshot](https://github.com/sprokkel78/gtodo/blob/develop/screenshots/gTodo-3.png)
