@@ -1,4 +1,4 @@
-gtodo-sprokkel78
+![Screenshot](https://github.com/sprokkel78/gtodo/blob/develop/screenshots/title.png)
 
 A graphical user interface in PyGTK4 for performing TODO list items on Ubuntu and other Linux distro's. 
 It requires Python3.10 and the PyGTK apps. Developed on Fedora 41 and tested on Ubuntu 24.04.
