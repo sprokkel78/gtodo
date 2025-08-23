@@ -41,15 +41,15 @@ entry_topic_1 = Gtk.Entry()
 # STARTUP CHECKS
 #=====================================================================================================
 if not os.path.exists(os.path.expanduser("~") + "/.gtodo"):
-    command = "mkdir " + os.path.expanduser("~") + "/.gtodo"
+    command = "/usr/bin/mkdir " + os.path.expanduser("~") + "/.gtodo"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
 if not os.path.exists(os.path.expanduser("~") + "/.gtodo/Main.txt"):
-    command = "touch " + os.path.expanduser("~") + "/.gtodo/Main.txt"
+    command = "/usr/bin/touch " + os.path.expanduser("~") + "/.gtodo/Main.txt"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
 if not os.path.exists(os.path.expanduser("~") + "/.gtodo/Index.txt"):
-    command = "touch " + os.path.expanduser("~") + "/.gtodo/Index.txt"
+    command = "/usr/bin/touch " + os.path.expanduser("~") + "/.gtodo/Index.txt"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
 
@@ -228,11 +228,11 @@ def change_priority(obj, label_todo, entry_prio, row):
 
     sleep(0.5)
 
-    command = "cat " + homedir + "/.gtodo/" + topic + ".txt | sort > " + homedir + "/.gtodo/" + topic + ".txt.new"
+    command = "/usr/bin/cat " + homedir + "/.gtodo/" + topic + ".txt | sort > " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
     sleep(0.5)
-    command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
+    command = "/usr/bin/cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
     sleep(0.5)
@@ -281,11 +281,11 @@ def button_todo_clicked(obj):
             file.write(line + "\n")
         sleep(1)
 
-        command = "cat " + homedir + "/.gtodo/" + topic + ".txt | sort > " + homedir + "/.gtodo/" + topic + ".txt.new"
+        command = "/usr/bin/cat " + homedir + "/.gtodo/" + topic + ".txt | sort > " + homedir + "/.gtodo/" + topic + ".txt.new"
         result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         out = result.communicate()
         sleep(0.5)
-        command = "cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
+        command = "/usr/bin/cp " + homedir + "/.gtodo/" + topic + ".txt.new " + homedir + "/.gtodo/" + topic + ".txt; rm " + homedir + "/.gtodo/" + topic + ".txt.new"
         result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         out = result.communicate()
         sleep(0.5)
@@ -301,7 +301,7 @@ def new_topic(obj, entry):
     topic = entry.get_text()
     if topic != "" and ";" not in topic and "." not in topic and topic_edit == 0:
         if not os.path.exists(os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"):
-            command = "touch " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
+            command = "/usr/bin/touch " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
             result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             out = result.communicate()
 
@@ -310,7 +310,7 @@ def new_topic(obj, entry):
             row.set_child(label_topic)
             listbox_topic.append(row)
     if topic != "" and ";" not in topic and "." not in topic and topic_edit == 1 and topic != "Main":
-        command = "mv " + os.path.expanduser("~") + "/.gtodo/" + old_topic + ".txt " + os.path.expanduser(
+        command = "/usr/bin/mv " + os.path.expanduser("~") + "/.gtodo/" + old_topic + ".txt " + os.path.expanduser(
             "~") + "/.gtodo/" + topic + ".txt"
         result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         out = result.communicate()
@@ -337,7 +337,7 @@ def load_topics():
 
     homedir = os.path.expanduser("~")
     #print("loading topics")
-    command = "ls -l " + homedir + "/.gtodo/*.txt"
+    command = "/usr/bin/ls -l " + homedir + "/.gtodo/*.txt"
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
     #print(out[0])
@@ -387,9 +387,6 @@ def load_topics():
         x = x + 1
 
 
-
-
-
 def button_topic_delete_clicked(obj):
     global topic
     global topic_title
@@ -397,7 +394,7 @@ def button_topic_delete_clicked(obj):
     remove = 1
     if topic != "Main":
         if os.path.exists(os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"):
-            command = "rm " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
+            command = "/usr/bin/rm " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
             result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
             out = result.communicate()
 

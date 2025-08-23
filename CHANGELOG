@@ -7,6 +7,9 @@ NOTES:
 CHANGELOG
 ---------
 
+# gtodo-sprokkel78 1.0.8
+- fix full path name to binaries for security reasons.
+
 # gtodo-sprokkel78 1.0.7
 - added info for prohibited characters in the todo entry.
 - removed ctrl-q and ctrl-m from the free version.
