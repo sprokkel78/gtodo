@@ -64,9 +64,9 @@ status = subprocess.Popen("/usr/bin/ps aux | /usr/bin/grep \"python3 ./gtodo.py\
 rcstat = status.wait()
 out = status.communicate()
 test = out[0].split("\n")
-print(test[1])
+#print(test[1])
 user_running = test[1].split(" ")
-print(user_running[0])
+#print(user_running[0])
 if(user == user_running[0] or user == ""):
     print("gtodo is already running.")
     exit()
