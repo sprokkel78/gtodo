@@ -54,6 +54,7 @@ if not os.path.exists(os.path.expanduser("~") + "/.gtodo/Index.txt"):
     result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     out = result.communicate()
 
+user = ""
 user = os.getlogin()
 print(f"gtodo starting as: {user}")
 
@@ -63,9 +64,10 @@ status = subprocess.Popen("/usr/bin/ps aux | /usr/bin/grep \"python3 ./gtodo.py\
 rcstat = status.wait()
 out = status.communicate()
 test = out[0].split("\n")
-user_running = test[0].split(" ")
-#print(user_running[0])
-if(user == user_running[0]):
+print(test[1])
+user_running = test[1].split(" ")
+print(user_running[0])
+if(user == user_running[0] or user == ""):
     print("gtodo is already running.")
     exit()
 
