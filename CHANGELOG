@@ -7,6 +7,10 @@ NOTES:
 CHANGELOG
 ---------
 
+# gtodo-sprokkel78 1.0.9
+- program startup now checks if gtodo is already running as the same user.
+  In order to prevent starting the program twice as the same user..
+
 # gtodo-sprokkel78 1.0.8
 - fix full path name to binaries for security reasons.
 
