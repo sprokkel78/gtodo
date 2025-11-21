@@ -9,8 +9,8 @@ gi.require_version('Adw', '1')
 from gi.repository import Gtk, Gdk, Adw
 from time import sleep
 
-# VERSION = 1.0.9
-ver = "1.0.9"
+# VERSION = 1.1.0
+ver = "1.1.0"
 
 #=====================================================================================================
 # GLOBAL VARIABLES
@@ -315,7 +315,7 @@ def new_topic(obj, entry):
     global topic_edit
     global old_topic
     topic = entry.get_text()
-    if topic != "" and ";" not in topic and "." not in topic and topic_edit == 0:
+    if topic != "" and ";" not in topic and "&" not in topic  and "." not in topic and topic_edit == 0:
         if not os.path.exists(os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"):
             command = "/usr/bin/touch " + os.path.expanduser("~") + "/.gtodo/" + topic + ".txt"
             result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
@@ -325,15 +325,17 @@ def new_topic(obj, entry):
             label_topic = Gtk.Label(label=topic)
             row.set_child(label_topic)
             listbox_topic.append(row)
-    if topic != "" and ";" not in topic and "." not in topic and topic_edit == 1 and topic != "Main":
+            entry.set_text("")
+
+    if topic != "" and ";" not in topic and "." not in topic and "&" not in topic and topic_edit == 1 and topic != "Main":
         command = "/usr/bin/mv " + os.path.expanduser("~") + "/.gtodo/" + old_topic + ".txt " + os.path.expanduser(
             "~") + "/.gtodo/" + topic + ".txt"
         result = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         out = result.communicate()
         topic_edit = 0
         label_topic = Gtk.Label(label=topic)
+        entry.set_text("")
 
-    entry.set_text("")
     listbox_topic.remove_all()
     load_topics()
     topic_changed(0, 0, 0, 0, label_topic)
